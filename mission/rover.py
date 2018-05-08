@@ -29,3 +29,9 @@ class Rover:
     def rotate_right(self):
         # use maps as no case switch in python
         self.direction = RIGHT_ROTATION_MAP[self.direction]
+
+    def move_north(self):
+        if self.position_y != self.max_y:
+            self.position_y += 1
+        else:
+            print(f'{self.name} is at max y position of {self.max_y}')
