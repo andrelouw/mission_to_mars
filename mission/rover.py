@@ -55,3 +55,6 @@ class Rover:
             self.position_x -= 1
         else:
             print(f'{self.name} is at min x position of {self.min_x}')
+
+    def get_rover_position(self):
+        return f"{self.position_x} {self.position_y} {self.direction}"
