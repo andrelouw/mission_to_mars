@@ -5,6 +5,13 @@ LEFT_ROTATION_MAP = {
     'E': 'N',
 }
 
+RIGHT_ROTATION_MAP = {
+    'N': 'E',
+    'E': 'S',
+    'S': 'W',
+    'W': 'N',
+}
+
 
 class Rover:
     def __init__(self):
@@ -18,3 +25,7 @@ class Rover:
     def rotate_left(self):
         # use maps as no case switch in python
         self.direction = LEFT_ROTATION_MAP[self.direction]
+
+    def rotate_right(self):
+        # use maps as no case switch in python
+        self.direction = RIGHT_ROTATION_MAP[self.direction]

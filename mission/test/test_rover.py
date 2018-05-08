@@ -21,3 +21,17 @@ class RoverTest(unittest.TestCase):
                           f'Rotate Left for case "{name}" failed.\n'
                           f'Expected: {expected}\n'
                           f'Got: {test_input}')
+
+    @parameterized.expand([
+        ('North', 'N', 'E'),
+        ('East', 'E', 'S'),
+        ('South', 'S', 'W'),
+        ('West', 'W', 'N'),
+    ])
+    def test_rotate_right(self, name, test_input, expected):
+        self.rover.direction = test_input
+        self.rover.rotate_right()
+        self.assertEquals(self.rover.direction, expected,
+                          f'Rotate Right for case "{name}" failed.\n'
+                          f'Expected: {expected}\n'
+                          f'Got: {test_input}')
