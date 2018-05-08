@@ -21,6 +21,8 @@ class Rover:
         self.direction = 'N'  # TODO: maybe make this enum?
         self.max_x = 10
         self.max_y = 10
+        self.min_x = 0
+        self.min_y = 0
 
     def rotate_left(self):
         # use maps as no case switch in python
@@ -41,3 +43,9 @@ class Rover:
             self.position_x += 1
         else:
             print(f'{self.name} is at max x position of {self.max_x}')
+
+    def move_south(self):
+        if self.position_y != self.min_y:
+            self.position_y -= 1
+        else:
+            print(f'{self.name} is at min y position of {self.min_y}')
