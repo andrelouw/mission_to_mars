@@ -10,3 +10,7 @@ We use pyenv and pyenv-virtualenv for our virtual environments.
 
 **Create virtual environment:** `pyenv virtualenv 3.6.0 mission_to_mars`
 **Start virtual environment:** `pyenv activate mission_to_mars`
+
+## Test
+
+`pytest`
