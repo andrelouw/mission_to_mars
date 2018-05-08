@@ -35,3 +35,9 @@ class Rover:
             self.position_y += 1
         else:
             print(f'{self.name} is at max y position of {self.max_y}')
+
+    def move_east(self):
+        if self.position_x != self.max_x:
+            self.position_x += 1
+        else:
+            print(f'{self.name} is at max x position of {self.max_x}')

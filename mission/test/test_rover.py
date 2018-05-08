@@ -47,3 +47,15 @@ class RoverTest(unittest.TestCase):
                           f'{name} failed.\n'
                           f'Expected: {expected}\n'
                           f'Got: {self.rover.position_y}')
+
+    @parameterized.expand([
+        ('Move if not max', 0, 1),
+        ('Move if max', 10, 10),
+    ])
+    def test_move_east(self, name, test_input, expected):
+        self.rover.position_x = test_input
+        self.rover.move_east()
+        self.assertEquals(self.rover.position_x, expected,
+                          f'{name} failed.\n'
+                          f'Expected: {expected}\n'
+                          f'Got: {self.rover.position_x}')
