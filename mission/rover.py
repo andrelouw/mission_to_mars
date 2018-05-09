@@ -14,8 +14,8 @@ RIGHT_ROTATION_MAP = {
 
 
 class Rover:
-    def __init__(self):
-        self.name = "athena"
+    def __init__(self, name):
+        self.name = name
         self.position_x = 0
         self.position_y = 0
         self.direction = 'N'  # TODO: maybe make this enum?

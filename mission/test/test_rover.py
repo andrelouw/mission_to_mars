@@ -6,7 +6,7 @@ from mission.rover import Rover
 class RoverTest(unittest.TestCase):
 
     def setUp(self):
-        self.rover = Rover()
+        self.rover = Rover("Test Rover")
 
     @parameterized.expand([
         ('North', 'N', 'W'),
