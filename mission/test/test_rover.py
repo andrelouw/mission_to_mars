@@ -96,6 +96,3 @@ class RoverTest(unittest.TestCase):
             self.rover.direction = test_input
             self.rover.move_forward()
             f.assert_called()
-
-
-    # TODO: test for edge cases once errors has been created

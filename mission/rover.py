@@ -1,3 +1,6 @@
+from mission.comms import MissionComms
+
+
 LEFT_ROTATION_MAP = {
     'N': 'W',
     'W': 'S',
@@ -14,13 +17,13 @@ RIGHT_ROTATION_MAP = {
 
 
 class Rover:
-    def __init__(self, name: str):
+    def __init__(self, name: str, start_x: int, start_y: int, max_x: int, max_y: int):
         self.name = name
-        self.position_x = 0
-        self.position_y = 0
+        self.position_x = start_x
+        self.position_y = start_y
         self.direction = 'N'  # TODO: maybe make this enum?
-        self.max_x = 10
-        self.max_y = 10
+        self.max_x = max_x
+        self.max_y = max_y
         self.min_x = 0
         self.min_y = 0
 
@@ -36,25 +39,25 @@ class Rover:
         if self.position_y != self.max_y:
             self.position_y += 1
         else:
-            print(f'{self.name} is at max y position of {self.max_y}')
+            MissionComms.print_warn(f'{self.name} is at max y position of {self.max_y}')
 
     def move_east(self):
         if self.position_x != self.max_x:
             self.position_x += 1
         else:
-            print(f'{self.name} is at max x position of {self.max_x}')
+            MissionComms.print_warn(f'{self.name} is at max x position of {self.max_x}')
 
     def move_south(self):
         if self.position_y != self.min_y:
             self.position_y -= 1
         else:
-            print(f'{self.name} is at min y position of {self.min_y}')
+            MissionComms.print_warn(f'{self.name} is at min y position of {self.min_y}')
 
     def move_west(self):
         if self.position_x != self.min_x:
             self.position_x -= 1
         else:
-            print(f'{self.name} is at min x position of {self.min_x}')
+            MissionComms.print_warn(f'{self.name} is at min x position of {self.min_x}')
 
     def move_forward(self):
         if self.direction == 'N':
