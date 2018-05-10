@@ -14,7 +14,7 @@ RIGHT_ROTATION_MAP = {
 
 
 class Rover:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self.position_x = 0
         self.position_y = 0
@@ -55,6 +55,16 @@ class Rover:
             self.position_x -= 1
         else:
             print(f'{self.name} is at min x position of {self.min_x}')
+
+    def move_forward(self):
+        if self.direction == 'N':
+            self.move_north()
+        elif self.direction == 'E':
+            self.move_east()
+        elif self.direction == 'S':
+            self.move_south()
+        elif self.direction == 'W':
+            self.move_west()
 
     def get_rover_position(self):
         return f"{self.position_x} {self.position_y} {self.direction}"

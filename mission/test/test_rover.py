@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from parameterized import parameterized
 from mission.rover import Rover
 
@@ -83,3 +84,18 @@ class RoverTest(unittest.TestCase):
                           f'{name} failed.\n'
                           f'Expected: {expected}\n'
                           f'Got: {self.rover.position_x}')
+
+    @parameterized.expand([
+        ('N', 'mission.rover.Rover.move_north'),
+        ('S', 'mission.rover.Rover.move_south'),
+        ('E', 'mission.rover.Rover.move_east'),
+        ('W', 'mission.rover.Rover.move_west'),
+    ])
+    def test_move_forward(self, test_input, target):
+        with patch(target) as f:
+            self.rover.direction = test_input
+            self.rover.move_forward()
+            f.assert_called()
+
+
+    # TODO: test for edge cases once errors has been created
