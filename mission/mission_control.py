@@ -19,33 +19,42 @@ class MissionControl:
 
     def scout_plateau(self):
         while True:
-            size = input("\nHow big is the plateau? ")
+            size = input(f"\nHow big is the plateau? ")
             max_coordinates = size.split()
             try:
                 self.max_x = int(max_coordinates[0])
                 self.max_y = int(max_coordinates[1])
                 MissionComms.print_info(f"Plateau confirmed to be {self.max_x}x{self.max_y}")
                 break
-            except IndexError:
+            except (IndexError, ValueError):
                 MissionComms.print_warn("Expecting 2 coordinates separated by a space, for example: 5 5")
                 continue
 
     def deploy_rover(self):
+        prompt = "\nWhere should the rover be deployed? " if len(self.rovers) == 0 \
+            else "\nWhere should the next rover be deployed? "
         while True:
             try:
-                coordinates = input(f"\nWhere should the rover be deployed? ").split()
+                coordinates = input(prompt).split()
                 x = int(coordinates[0])
                 y = int(coordinates[1])
                 d = coordinates[2].upper()
                 if d not in ['N', 'S', 'E', 'W']:
                     MissionComms.print_warn(f"Not a valid direction, options are N, S, E, and W")
                     continue
+                if x > self.max_x or y > self.max_y:
+                    MissionComms.print_warn(f"Not a valid position, try and keep it in bounds")
+                    continue
+                rover = Rover("Rover", x, y, d)
+                self.collision_avoidance(rover, deployment=True)
                 break
             except (ValueError, IndexError):
                 MissionComms.print_warn(f"Expecting 2 numbers and a direction in the format: 0 0 N")
                 continue
+            except RoverError:
+                MissionComms.print_warn(f"A rover is already deployed there, try again.")
+                continue
 
-        rover = Rover("Rover", x, y, d)
         MissionComms.print_info(f"{rover.name} deployed at position:\t {rover.get_rover_position()}")
         self.rovers.append(rover)
         self._drive_rover(rover)
@@ -120,26 +129,27 @@ class MissionControl:
         else:
             MissionComms.print_warn(f"{command} is not a valid command, ignoring this command.")
 
-    def collision_avoidance(self, rover):
+    def collision_avoidance(self, rover, deployment=False):
         if self._is_end_of_plateau(rover):
             raise RoverError(f"{rover.name} is at the end of the plateau!")
         for r in self.rovers:
-            if self._is_in_path(rover, r):
+            if self._is_in_path(rover, r, deployment):
                 raise RoverError(f"Crash imminent, {r.name} already located at {r.position_x} {r.position_y}!")
 
     @staticmethod
-    def _is_in_path(rover1: Rover, rover2: Rover) -> bool:
+    def _is_in_path(rover1: Rover, rover2: Rover, deployment=False) -> bool:
+        width = 0 if deployment else 1
         if rover1.direction == 'N':
-            if rover1.position_x == rover2.position_x and (rover1.position_y + 1) == rover2.position_y:
+            if rover1.position_x == rover2.position_x and (rover1.position_y + width) == rover2.position_y:
                 return True
         if rover1.direction == 'E':
-            if (rover1.position_x + 1) == rover2.position_x and rover1.position_y == rover2.position_y:
+            if (rover1.position_x + width) == rover2.position_x and rover1.position_y == rover2.position_y:
                 return True
         if rover1.direction == 'S':
-            if rover1.position_x == rover2.position_x and (rover1.position_y - 1) == rover2.position_y:
+            if rover1.position_x == rover2.position_x and (rover1.position_y - width) == rover2.position_y:
                 return True
         if rover1.direction == 'W':
-            if (rover1.position_x - 1) == rover2.position_x and rover1.position_y == rover2.position_y:
+            if (rover1.position_x - width) == rover2.position_x and rover1.position_y == rover2.position_y:
                 return True
 
         return False
