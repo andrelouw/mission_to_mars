@@ -1,13 +1,17 @@
 import unittest
 from unittest.mock import patch
+
+import pytest
 from parameterized import parameterized
+
+from mission.error import RoverError
 from mission.rover import Rover
 
 
 class RoverTest(unittest.TestCase):
 
     def setUp(self):
-        self.rover = Rover("Test Rover")
+        self.rover = Rover("Test Rover", 0, 0, 10, 10)
 
     @parameterized.expand([
         ('North', 'N', 'W'),
@@ -54,12 +58,13 @@ class RoverTest(unittest.TestCase):
         ('Move if max', 10, 10),
     ])
     def test_move_east(self, name, test_input, expected):
-        self.rover.position_x = test_input
-        self.rover.move_east()
-        self.assertEquals(self.rover.position_x, expected,
-                          f'{name} failed.\n'
-                          f'Expected: {expected}\n'
-                          f'Got: {self.rover.position_x}')
+        with pytest.raises(RoverError):
+            self.rover.position_x = test_input
+            self.rover.move_east()
+            self.assertEquals(self.rover.position_x, expected,
+                              f'{name} failed.\n'
+                              f'Expected: {expected}\n'
+                              f'Got: {self.rover.position_x}')
 
     @parameterized.expand([
         ('Move if not min', 1, 0),

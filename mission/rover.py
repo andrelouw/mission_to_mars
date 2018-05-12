@@ -1,4 +1,5 @@
 from mission.comms import MissionComms
+from mission.error import RoverError
 
 
 LEFT_ROTATION_MAP = {
@@ -39,25 +40,25 @@ class Rover:
         if self.position_y != self.max_y:
             self.position_y += 1
         else:
-            MissionComms.print_warn(f'{self.name} is at max y position of {self.max_y}')
+            raise RoverError(f"{self.name} is on the edge of the plateau!")
 
     def move_east(self):
         if self.position_x != self.max_x:
             self.position_x += 1
         else:
-            MissionComms.print_warn(f'{self.name} is at max x position of {self.max_x}')
+            raise RoverError(f"{self.name} is on the edge of the plateau!")
 
     def move_south(self):
         if self.position_y != self.min_y:
             self.position_y -= 1
         else:
-            MissionComms.print_warn(f'{self.name} is at min y position of {self.min_y}')
+            raise RoverError(f"{self.name} is on the edge of the plateau!")
 
     def move_west(self):
         if self.position_x != self.min_x:
             self.position_x -= 1
         else:
-            MissionComms.print_warn(f'{self.name} is at min x position of {self.min_x}')
+            raise RoverError(f"{self.name} is on the edge of the plateau!")
 
     def move_forward(self):
         if self.direction == 'N':
