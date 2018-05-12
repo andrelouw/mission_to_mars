@@ -1,10 +1,8 @@
 import unittest
 from unittest.mock import patch
 
-import pytest
 from parameterized import parameterized
 
-from mission.error import RoverError
 from mission.rover import Rover
 
 

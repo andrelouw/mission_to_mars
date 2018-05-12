@@ -6,5 +6,3 @@ class RoverError(Exception):
         MissionComms.print_fail(message)
 
         super().__init__(message)
-
-

@@ -18,18 +18,37 @@ class MissionControl:
         self.max_y = 0
 
     def scout_plateau(self):
-        size = input("\nHow big is the plateau? ")
-        max_coordinates = size.split()
-        try:
-            self.max_x = int(max_coordinates[0])
-            self.max_y = int(max_coordinates[1])
-            MissionComms.print_info(f"Plateau confirmed to be {self.max_x}x{self.max_y}")
-        except IndexError:
-            MissionComms.print_warn("Expecting 2 coordinates separated by a space, for example: `5 5`")
-            self.scout_plateau()
+        while True:
+            size = input("\nHow big is the plateau? ")
+            max_coordinates = size.split()
+            try:
+                self.max_x = int(max_coordinates[0])
+                self.max_y = int(max_coordinates[1])
+                MissionComms.print_info(f"Plateau confirmed to be {self.max_x}x{self.max_y}")
+                break
+            except IndexError:
+                MissionComms.print_warn("Expecting 2 coordinates separated by a space, for example: 5 5")
+                continue
 
-    # TODO: deploy rover for basic test
-    # def deploy_rover(self):
+    def deploy_rover(self):
+        while True:
+            try:
+                coordinates = input(f"\nWhere should the rover be deployed? ").split()
+                x = int(coordinates[0])
+                y = int(coordinates[1])
+                d = coordinates[2].upper()
+                if d not in ['N', 'S', 'E', 'W']:
+                    MissionComms.print_warn(f"Not a valid direction, options are N, S, E, and W")
+                    continue
+                break
+            except (ValueError, IndexError):
+                MissionComms.print_warn(f"Expecting 2 numbers and a direction in the format: 0 0 N")
+                continue
+
+        rover = Rover("Rover", x, y, d)
+        MissionComms.print_info(f"{rover.name} deployed at position:\t {rover.get_rover_position()}")
+        self.rovers.append(rover)
+        self._drive_rover(rover)
 
     def deploy_rovers(self):
         max_rovers = 4 if self.max_x > 4 else self.max_x
@@ -46,10 +65,14 @@ class MissionControl:
             MissionComms.print_fail(f"Expecting a number between 1 and {max_rovers}")
             continue
 
-        for rover in range(int(number_of_rovers)):
-            rover = Rover(ROVER_NAMES[rover], rover, 0, 'N')
+        for r in range(int(number_of_rovers)):
+            rover = Rover(ROVER_NAMES[r], r, 0, 'N')
             self.rovers.append(rover)
             MissionComms.print_info(f"Rover {rover.name} deployed at position:\t {rover.get_rover_position()}")
+
+    def _drive_rover(self, rover: Rover):
+        commands = input(f"\nWhat are the commands for the rover? ")
+        self._manage_rover(rover, commands)
 
     def drive_rovers(self):
         MissionComms.print_bold("")
@@ -72,16 +95,15 @@ class MissionControl:
 
         rover = self.rovers[index]
         commands = input(f"\nPlease enter commands for {rover.name}: ")
-        self.manage_rover(index, commands)
+        self._manage_rover(rover, commands)
 
-    def manage_rover(self, index: int, commands: str):
-        rover = self.rovers[index]
+    def _manage_rover(self, rover: Rover, commands: str):
         for command in list(commands):
             try:
                 self._action_command(command, rover)
             except CommandAbort:
                 break
-        MissionComms.print_info(f"Rover {rover.name} is now at position: {rover.get_rover_position()}")
+        MissionComms.print_info(f"{rover.name} is now at position: {rover.get_rover_position()}")
 
     def _action_command(self, command: str, rover):
         command = command.upper()
@@ -95,16 +117,15 @@ class MissionControl:
                 rover.move_forward()
             except RoverError:
                 raise CommandAbort("Aborting commands")
-
         else:
             MissionComms.print_warn(f"{command} is not a valid command, ignoring this command.")
 
     def collision_avoidance(self, rover):
         if self._is_end_of_plateau(rover):
-            raise RoverError(f"Rover {rover.name} is at the end of the plateau!")
+            raise RoverError(f"{rover.name} is at the end of the plateau!")
         for r in self.rovers:
             if self._is_in_path(rover, r):
-                raise RoverError(f"Crash imminent, rover {r.name} already located at {r.position_x} {r.position_y}!")
+                raise RoverError(f"Crash imminent, {r.name} already located at {r.position_x} {r.position_y}!")
 
     @staticmethod
     def _is_in_path(rover1: Rover, rover2: Rover) -> bool:
