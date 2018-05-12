@@ -37,4 +37,11 @@ class RoverTest(unittest.TestCase):
         self.mission_control.manage_rover(0, 'MRML')
         rover = self.mission_control.rovers[0];
         self.assertEquals(rover.get_rover_position(), '1 1 N')
+    def test_scout_plateau(self):
+        user_input = ['15 20']
+        with patch('builtins.input', side_effect=user_input):
+            self.mission_control.scout_plateau()
+
+        self.assertEquals(self.mission_control.max_x, 15)
+        self.assertEquals(self.mission_control.max_y, 20)
 
