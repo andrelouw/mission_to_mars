@@ -11,7 +11,7 @@ from mission.rover import Rover
 class RoverTest(unittest.TestCase):
 
     def setUp(self):
-        self.rover = Rover("Test Rover", 0, 0, 10, 10)
+        self.rover = Rover("Test Rover", 0, 0, 'N')
 
     @parameterized.expand([
         ('North', 'N', 'W'),
@@ -41,53 +41,34 @@ class RoverTest(unittest.TestCase):
                           f'Expected: {expected}\n'
                           f'Got: {test_input}')
 
-    @parameterized.expand([
-        ('Move if not max', 0, 1),
-        ('Move if max', 10, 10),
-    ])
-    def test_move_north(self, name, test_input, expected):
-        self.rover.position_y = test_input
+    def test_move_north(self):
         self.rover.move_north()
-        self.assertEquals(self.rover.position_y, expected,
-                          f'{name} failed.\n'
-                          f'Expected: {expected}\n'
+        self.assertEquals(self.rover.position_y, 1,
+                          f'Rover Move north failed.\n'
+                          f'Expected:1\n'
                           f'Got: {self.rover.position_y}')
 
-    @parameterized.expand([
-        ('Move if not max', 0, 1),
-        ('Move if max', 10, 10),
-    ])
-    def test_move_east(self, name, test_input, expected):
-        with pytest.raises(RoverError):
-            self.rover.position_x = test_input
-            self.rover.move_east()
-            self.assertEquals(self.rover.position_x, expected,
-                              f'{name} failed.\n'
-                              f'Expected: {expected}\n'
-                              f'Got: {self.rover.position_x}')
+    def test_move_east(self):
+        self.rover.move_east()
+        self.assertEquals(self.rover.position_x, 1,
+                          f'Rover Move east failed.\n'
+                          f'Expected: 1\n'
+                          f'Got: {self.rover.position_x}')
 
-    @parameterized.expand([
-        ('Move if not min', 1, 0),
-        ('Move if min', 0, 0),
-    ])
-    def test_move_south(self, name, test_input, expected):
-        self.rover.position_y = test_input
+    def test_move_south(self):
+        self.rover.position_y = 1
         self.rover.move_south()
-        self.assertEquals(self.rover.position_y, expected,
-                          f'{name} failed.\n'
-                          f'Expected: {expected}\n'
+        self.assertEquals(self.rover.position_y, 0,
+                          f'Rover Move south failed.\n'
+                          f'Expected: 0\n'
                           f'Got: {self.rover.position_y}')
 
-    @parameterized.expand([
-        ('Move if not min', 1, 0),
-        ('Move if min', 0, 0),
-    ])
-    def test_move_west(self, name, test_input, expected):
-        self.rover.position_x = test_input
+    def test_move_west(self):
+        self.rover.position_x = 1
         self.rover.move_west()
-        self.assertEquals(self.rover.position_x, expected,
-                          f'{name} failed.\n'
-                          f'Expected: {expected}\n'
+        self.assertEquals(self.rover.position_x, 0,
+                          f'Rover Move west failed.\n'
+                          f'Expected: 0\n'
                           f'Got: {self.rover.position_x}')
 
     @parameterized.expand([
@@ -101,3 +82,9 @@ class RoverTest(unittest.TestCase):
             self.rover.direction = test_input
             self.rover.move_forward()
             f.assert_called()
+
+    def test_get_rover_position(self):
+        self.assertEquals(self.rover.get_rover_position(), "0 0 N",
+                          f'Get rover position failed.\n'
+                          f'Expected: 0 0 N\n'
+                          f'Got: {self.rover.get_rover_position()}')

@@ -28,6 +28,9 @@ class MissionControl:
             MissionComms.print_warn("Expecting 2 coordinates separated by a space, for example: `5 5`")
             self.scout_plateau()
 
+    # TODO: deploy rover for basic test
+    # def deploy_rover(self):
+
     def deploy_rovers(self):
         max_rovers = 4 if self.max_x > 4 else self.max_x
         while True:
@@ -44,8 +47,7 @@ class MissionControl:
             continue
 
         for rover in range(int(number_of_rovers)):
-            # TODO what if rover initial deployment is out of bounds?
-            rover = Rover(ROVER_NAMES[rover], rover, 0, self.max_x, self.max_y)
+            rover = Rover(ROVER_NAMES[rover], rover, 0, 'N')
             self.rovers.append(rover)
             MissionComms.print_info(f"Rover {rover.name} deployed at position:\t {rover.get_rover_position()}")
 
@@ -98,12 +100,14 @@ class MissionControl:
             MissionComms.print_warn(f"{command} is not a valid command, ignoring this command.")
 
     def collision_avoidance(self, rover):
+        if self._is_end_of_plateau(rover):
+            raise RoverError(f"Rover {rover.name} is at the end of the plateau!")
         for r in self.rovers:
             if self._is_in_path(rover, r):
                 raise RoverError(f"Crash imminent, rover {r.name} already located at {r.position_x} {r.position_y}!")
 
     @staticmethod
-    def _is_in_path(rover1: Rover, rover2: Rover):
+    def _is_in_path(rover1: Rover, rover2: Rover) -> bool:
         if rover1.direction == 'N':
             if rover1.position_x == rover2.position_x and (rover1.position_y + 1) == rover2.position_y:
                 return True
@@ -119,8 +123,18 @@ class MissionControl:
 
         return False
 
+    def _is_end_of_plateau(self, rover) -> bool:
+        if rover.direction == 'N':
+            if rover.position_y + 1 == self.max_y + 1:
+                return True
+        if rover.direction == 'E':
+            if rover.position_x + 1 == self.max_x + 1:
+                return True
+        if rover.direction == 'S':
+            if rover.position_y - 1 == -1:
+                return True
+        if rover.direction == 'W':
+            if rover.position_x - 1 == -1:
+                return True
 
-
-
-
-
+        return False

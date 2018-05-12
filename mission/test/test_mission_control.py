@@ -56,10 +56,14 @@ class MissionControlTest(unittest.TestCase):
         self.assertEquals(self.mission_control.max_x, 15)
         self.assertEquals(self.mission_control.max_y, 20)
 
-    def test_collision_avoidance(self):
+    @parameterized.expand([
+        ('Plateau', 0, 0, 'W'),
+        ('Path', 0, 0, 'E'),
+    ])
+    def test_collision_avoidance(self, name, x, y, direction):
         with pytest.raises(RoverError):
-            self.mission_control.manage_rover(1, "MLM")
-            self.mission_control.manage_rover(0, 'M')
+            rover = Rover('Test', x, y, direction)
+            self.mission_control.collision_avoidance(rover)
 
     @parameterized.expand([
         ('False', 'N', 1, 1, False),
@@ -73,13 +77,28 @@ class MissionControlTest(unittest.TestCase):
         ('EdgeW', 'W', 0, 0, False),
     ])
     def test_is_in_path(self, name, direction, r2x, r2y, expected):
-        rover1 = Rover("Rover 1", 1, 1, 10, 10)
-        rover1.direction = direction
-        rover2 = Rover("Rover 2", r2x, r2y, 10, 10)
+        rover1 = Rover("Rover 1", 1, 1, direction)
+        rover2 = Rover("Rover 2", r2x, r2y, 'N')
 
         result = MissionControl._is_in_path(rover1, rover2)
         self.assertEquals(result, expected,
                           f'Test in path {name} failed.\n'
+                          f'Expected: {expected}\n'
+                          f'Got: {result}')
+
+    @parameterized.expand([
+        ('North', 0, 0, 'N', False),
+        ('North', 0, 10, 'N', True),
+        ('South', 0, 0, 'S', True),
+        ('East', 10, 0, 'E', True),
+        ('West', 0, 0, 'W', True),
+    ])
+    def test_is_end_of_plateau(self, name, x, y, direction, expected):
+        rover = Rover("Test", x, y, direction)
+        print(self.mission_control.max_y)
+        result = self.mission_control._is_end_of_plateau(rover)
+        self.assertEquals(result, expected,
+                          f'Test end of plateau {name} failed.\n'
                           f'Expected: {expected}\n'
                           f'Got: {result}')
 
