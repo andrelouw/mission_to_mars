@@ -52,5 +52,5 @@ class Rover:
         elif self.direction == 'W':
             self.move_west()
 
-    def get_rover_position(self):
+    def get_rover_position(self) -> str:
         return f"{self.position_x} {self.position_y} {self.direction}"

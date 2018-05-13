@@ -2,14 +2,14 @@ from mission.comms import MissionComms
 from mission.mission_control import MissionControl
 
 
-def beginner():
+def beginner() -> None:
     mission_control = MissionControl()
     mission_control.scout_plateau()
     mission_control.deploy_rover()
     mission_control.deploy_rover()
 
 
-def advanced():
+def advanced() -> None:
     mission_control = MissionControl()
     mission_control.scout_plateau()
     mission_control.deploy_rovers()
@@ -17,7 +17,7 @@ def advanced():
         mission_control.drive_rovers()
 
 
-def brief():
+def brief() -> None:
     print("-------------------------------------------------------")
     MissionComms.print_bold("""
         Welcome to the Mission to mars!

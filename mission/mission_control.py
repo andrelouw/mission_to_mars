@@ -117,7 +117,7 @@ class MissionControl:
                 break
         MissionComms.print_info(f"{rover.name} is now at position: {rover.get_rover_position()}")
 
-    def _action_command(self, command: str, rover):
+    def _action_command(self, command: str, rover: Rover) -> None:
         command = command.upper()
         if command == 'L':
             rover.rotate_left()
@@ -132,7 +132,7 @@ class MissionControl:
         else:
             MissionComms.print_warn(f"{command} is not a valid command, ignoring this command.")
 
-    def collision_avoidance(self, rover, deployment=False):
+    def collision_avoidance(self, rover: Rover, deployment=False) -> None:
         if self._is_end_of_plateau(rover):
             raise RoverError(f"{rover.name} is at the end of the plateau!")
         for r in self.rovers:
@@ -157,7 +157,7 @@ class MissionControl:
 
         return False
 
-    def _is_end_of_plateau(self, rover) -> bool:
+    def _is_end_of_plateau(self, rover: Rover) -> bool:
         if rover.direction == 'N':
             if rover.position_y + 1 == self.max_y + 1:
                 return True

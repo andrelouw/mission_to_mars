@@ -8,21 +8,21 @@ import sys
 class MissionComms:
 
     @staticmethod
-    def print_fail(message):
+    def print_fail(message: str) -> None:
         sys.stderr.write('\x1b[1;31m' + message.strip() + '\x1b[0m\n')
 
     @staticmethod
-    def print_pass(message):
+    def print_pass(message: str) -> None:
         sys.stdout.write('\x1b[1;32m' + message.strip() + '\x1b[0m\n')
 
     @staticmethod
-    def print_warn(message):
+    def print_warn(message: str) -> None:
         sys.stderr.write('\x1b[1;33m' + message.strip() + '\x1b[0m\n')
 
     @staticmethod
-    def print_info(message):
+    def print_info(message: str) -> None:
         sys.stdout.write('\x1b[1;34m' + message.strip() + '\x1b[0m\n')
 
     @staticmethod
-    def print_bold(message):
+    def print_bold(message: str) -> None:
         sys.stdout.write('\x1b[1;37m' + message.strip() + '\x1b[0m\n')

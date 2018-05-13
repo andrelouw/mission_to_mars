@@ -1,16 +1,17 @@
-# The Mars Rover Technical Challenge.
+# The Mars Rover Challenge.
 This is my implementation for the [marsrovertechchallenge](https://code.google.com/archive/p/marsrovertechchallenge/) .
 
 ## TL;DR
-Clone the repo and ensure you have [python](https://www.python.org/) version 3.6.0 installed as well as https://pypi.org/project/pip/.
+Clone the repo and ensure you have [python](https://www.python.org/) version 3.6.0 installed as well as [pip](https://pypi.org/project/pip/).
 
 To launch the mission run `make run` in the root of the project and follow the prompts.
 
 
 ## Launch
 ### Run
-To launch the mission, open up the terminal and run:
-`make run`
+Install  [python](https://www.python.org/) version 3.6.0 and [pip](https://pypi.org/project/pip/).
+Clone the repo, of course...
+To launch the mission, open up the terminal and run: `make run`
 
 ###  Instructions:
 -  First you will define the size of the plateau by giving the top x and y coordinates.

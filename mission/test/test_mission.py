@@ -12,7 +12,7 @@ def print_info(message):
 
 class MissionTest(unittest.TestCase):
 
-    # TODO: params
+    # TODO: More cases
     @mock.patch('sys.stdout', new_callable=StringIO)
     def test_beginner(self, mock_stdout):
         with mock.patch('builtins.input', side_effect=['5 5', '0 0 N', 'MMRMMLMM', '1 0 N', 'MMRMMLMM']):
