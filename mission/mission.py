@@ -18,7 +18,6 @@ def advanced():
 
 
 if __name__ == '__main__':
-    # TODO: Create integration tests of this file
     # TODO: Explainer text
     print("Welcome to the Mission to mars!")
 
