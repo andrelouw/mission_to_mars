@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch
 
+from unittest.mock import patch
 from parameterized import parameterized
 
 from mission.rover import Rover

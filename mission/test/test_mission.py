@@ -1,5 +1,6 @@
-from io import StringIO
 import unittest
+
+from io import StringIO
 from unittest import mock
 
 from mission.mission import beginner

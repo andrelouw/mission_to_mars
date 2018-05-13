@@ -14,3 +14,8 @@ We use pyenv and pyenv-virtualenv for our virtual environments.
 ## Test
 
 `pytest`
+
+
+## Assumptions
+- python install
+- pip installed

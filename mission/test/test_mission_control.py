@@ -1,5 +1,6 @@
 import unittest
 import pytest
+
 from unittest.mock import patch
 from parameterized import parameterized
 
@@ -18,11 +19,10 @@ class MissionControlTest(unittest.TestCase):
         with patch('builtins.input', side_effect='2'):
             self.mission_control.deploy_rovers()
 
-    @pytest.mark.skip(reason="Failing for some reason, skipping for now")
     def test_deploy_rover(self):
         # TODO: Edge cases
         self.mission_control.rovers = []
-        with patch('builtins.input', side_effect='0 0 N'):
+        with patch('builtins.input', side_effect=['0 0 N', '']):
             self.mission_control.deploy_rover()
             rover = self.mission_control.rovers[0]
             self.assertEquals(rover.get_rover_position(), '0 0 N')

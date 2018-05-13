@@ -19,11 +19,14 @@ class MissionControl:
 
     def scout_plateau(self):
         while True:
-            size = input(f"\nHow big is the plateau? ")
+            size = input(f"\nHow big is the plateau?\nFor example: `5 5`\n")
             max_coordinates = size.split()
             try:
                 self.max_x = int(max_coordinates[0])
                 self.max_y = int(max_coordinates[1])
+                if self.max_x == 0 or self.max_y == 0:
+                    MissionComms.print_warn("We can do better than that, make the plateau bigger than 0")
+                    continue
                 MissionComms.print_info(f"Plateau confirmed to be {self.max_x}x{self.max_y}")
                 break
             except (IndexError, ValueError):
@@ -31,8 +34,8 @@ class MissionControl:
                 continue
 
     def deploy_rover(self):
-        prompt = "\nWhere should the rover be deployed? " if len(self.rovers) == 0 \
-            else "\nWhere should the next rover be deployed? "
+        prompt = "\nWhere should the rover be deployed?\n" if len(self.rovers) == 0 \
+            else "\nWhere should the next rover be deployed?\n"
         while True:
             try:
                 coordinates = input(prompt).split()
@@ -62,7 +65,7 @@ class MissionControl:
     def deploy_rovers(self):
         max_rovers = 4 if self.max_x > 4 else self.max_x
         while True:
-            number_of_rovers = input(f"\nNumber of rovers (1-{max_rovers}) to deploy? ")
+            number_of_rovers = input(f"\nNumber of rovers (1-{max_rovers}) to deploy?\n")
             if number_of_rovers.isdigit():
                 if int(number_of_rovers) > max_rovers:
                     MissionComms.print_fail(f"Can't deploy more than {max_rovers} rovers!")
@@ -80,12 +83,12 @@ class MissionControl:
             MissionComms.print_info(f"Rover {rover.name} deployed at position:\t {rover.get_rover_position()}")
 
     def _drive_rover(self, rover: Rover):
-        commands = input(f"\nWhat are the commands for the rover? ")
+        commands = input(f"\nWhat are the commands for the rover?\n")
         self._manage_rover(rover, commands)
 
     def drive_rovers(self):
-        MissionComms.print_bold("")
-        MissionComms.print_bold("Which rover would you like to give orders to? (choose a number)")
+        print("")
+        print("Which rover would you like to give orders to? (choose a number)")
         MissionComms.print_bold("----------------------------------")
         MissionComms.print_bold(f"Nr \t| Name  \t| Position")
         MissionComms.print_bold("----------------------------------")
@@ -103,7 +106,7 @@ class MissionControl:
             MissionComms.print_warn(f"Please provide a valid number between 0 and {len(self.rovers) - 1}")
 
         rover = self.rovers[index]
-        commands = input(f"\nPlease enter commands for {rover.name}: ")
+        commands = input(f"\nPlease enter commands for {rover.name}:\n")
         self._manage_rover(rover, commands)
 
     def _manage_rover(self, rover: Rover, commands: str):
