@@ -47,18 +47,18 @@ def brief() -> None:
         -----------------------
             Two levels were created for this mission, namely Beginner and Advanced.
             - Beginner is the basic assignment use case:
-                You deploy a rover at a position and give it coordinates. 
-                Once the first rover is moved you moved on the second one. 
-                Only 2 rovers are deployed. 
+                You deploy a rover at a position by giving it coordinates. 
+                Once the first rover is moved you move on to the second one. 
+                Only 2 rovers will be deployed. 
             - Advanced is making things more interesting and interactive. 
                 You decide how many rovers you deploy. The maximum is dependent on the size of the plateau.
-                They are ll deployed at the bottom of the plateau, next to each other. 
+                All rovers are deployed at the bottom of the plateau, next to each other. 
                 Once deployed you select the rover you want to move, move it and repeat.
                 To quit you just hit Ctrl-C.
                 
         Last words:
         -----------
-            Try and stay on top of the plateau and don't crash into other rovers.
+            Try not to fall off of the plateau and don't crash into other rovers.
             May the terminal be with you. 
     """)
     print("-------------------------------------------------------")

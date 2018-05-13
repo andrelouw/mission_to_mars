@@ -1,17 +1,17 @@
-# The Mars Rover Challenge.
+# The Mars Rover Challenge
 This is my implementation for the [marsrovertechchallenge](https://code.google.com/archive/p/marsrovertechchallenge/) .
 
 ## TL;DR
 Clone the repo and ensure you have [python](https://www.python.org/) version 3.6.0 installed as well as [pip](https://pypi.org/project/pip/).
 
-To launch the mission run `make run` in the root of the project and follow the prompts.
+To launch the mission open up your terminal and type  `make run` in the root of the project and follow the prompts.
 
 
 ## Launch
 ### Run
 Install  [python](https://www.python.org/) version 3.6.0 and [pip](https://pypi.org/project/pip/).
 Clone the repo, of course...
-To launch the mission, open up the terminal and run: `make run`
+To launch the mission, open up the terminal and run `make run` in the root of the projects folder.
 
 ###  Instructions:
 -  First you will define the size of the plateau by giving the top x and y coordinates.
@@ -45,18 +45,19 @@ Two levels were created for this mission, namely Beginner and Advanced.
 ## Other goodies
 
 ### Tests
-To run tests: `make test`
+To run tests type `make test` in your terminal at the root of the project file.
+
 This command will install some dependencies we need to run the tests.
 After installation all test will run.
 
 ### Collision avoidance
-The idea of rovers landing/running into each other or falling of the plateau is frightening. To prevent this **collision avoidance** feature was introduced.
+The idea of rovers landing/running into each other or falling of the plateau is frightening. To prevent this, a **collision avoidance** feature is introduced.
 The **collision avoidance** feature does the following:
 - Prevents rovers from being deployed on top of each other
 - Prevents rovers from running into each other
 - Prevents rovers from falling of the plateau
-If a collision is immanent, being with a fellow rover or the abyss, the rover will stop at it's current position and not move forward.
-All remaining commands will be aborted and the user will be notified of this action.
+If a collision is immanent, that being with a fellow rover or the abyss, the rover will stop at it's current position and not move forward.
+All remaining commands will be aborted and the user will be notified of this occurrence.
 
 ### A note on virtual environments
 A **Virtual Environment** and **pyenv** was used during the development of this project.
